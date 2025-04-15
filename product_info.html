@@ -1,0 +1,39 @@
+import qrcode
+from pathlib import Path
+
+# ==== 产品信息 ====
+product_name = "回力工程车"
+model = "792F"
+unit_price = "￥24.72"
+packing = "36盒/箱"
+description = "这是一款高性价比的合金四驱车，适合儿童益智娱乐，安全环保。"
+image_file = "product.jpg"  # 产品图片，需放在同一目录下
+
+# ==== 生成 HTML 图文页面 ====
+html_content = f"""
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>{product_name} - 产品详情</title>
+</head>
+<body style="font-family: Arial; padding: 20px;">
+    <h2>{product_name}</h2>
+    <p><strong>型号：</strong>{model}</p>
+    <p><strong>单价：</strong>{unit_price}</p>
+    <p><strong>装箱量：</strong>{packing}</p>
+    <p>{description}</p>
+    <img src="{image_file}" alt="产品图片" style="max-width:300px;margin-top:20px;">
+</body>
+</html>
+"""
+
+# 保存 HTML 页面
+html_file = Path("product_info.html")
+html_file.write_text(html_content, encoding="utf-8")
+print("✅ 图文详情页已生成：product_info.html")
+
+# 生成二维码（扫码跳转到本地 HTML）
+qr = qrcode.make(f"file://{html_file.resolve()}")
+qr.save("product_qrcode.png")
+print("✅ 二维码已生成：product_qrcode.png")
